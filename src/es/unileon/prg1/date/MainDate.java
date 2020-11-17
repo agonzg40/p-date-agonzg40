@@ -10,7 +10,7 @@ public class MainDate {
 			Date otro = new Date(11,11,2020);
 			System.out.println(today);
 			
-				System.out.println(today.triesDoWhile());
+				System.out.println(today.dayOfWeek(5));
 		} catch (DateException e) {
 			System.out.println(e.getMessage());
 		}

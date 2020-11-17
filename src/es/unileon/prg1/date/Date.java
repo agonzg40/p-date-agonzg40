@@ -276,6 +276,26 @@ public class Date {
 
 	}
 
+	public int daysOfYear(){
+
+        int days= 0;
+        int total = 0;
+
+        try{
+
+            Date aux = new Date (1,1,2020);
+
+            for ( int i = 1; i <= this.month; i++){
+                aux.setMonth(i);
+                days = aux.getDaysOfMonth();
+                total = total + days;
+            }
+
+
+        }catch(DateException e){}
+        return  total;
+    }
+
 	public String sameDaysOfMonths(){
 
 		String months;
@@ -320,25 +340,113 @@ public class Date {
 		
 		do{
 
-				int diaR=(int)(Math.random()*31+1); 
-				int mesR=(int)(Math.random()*12+1);
+			int diaR=(int)(Math.random()*31+1); 
+			int mesR=(int)(Math.random()*12+1);
 
-				if(diaR==this.getDay()&&mesR==this.getMonth()){ 
-
+			if(diaR==this.getDay()&&mesR==this.getMonth()){ 
 				acierto=true;
-
-				}
-
-				else if(diaR!=this.getDay()||mesR!=this.getMonth()){
-
-					numIntentos++;	
-
-				}
-
+			}else if(diaR!=this.getDay()||mesR!=this.getMonth()){
+				numIntentos++;	
+			}
 		}while(!acierto);
-
 		return numIntentos;
-	
+	}
+
+	public String dateToString(){
+		String month, fecha;
+		month = this.getNameOfMonth();
+		int day = this.getDay();
+		int year = this.getYear();
+		fecha = day+"/"+month+"/"+year;
+    		return fecha;
+	}
+
+		
+	public String dayOfWeek(int dia){
+		int suma = dia;
+		String diaS ="";
+		try{
+			Date date = new Date(this.day, this.month, this.year);
+			
+		//Para tener en cuenta los años bisiestos
+		if((((this.year%4 == 0) && (this.year%100 != 0)) || (this.year%400 == 0))&& (this.month>2)){ 
+			
+			for(int i = 1; i <date.passedDays()+1;i++){
+				suma = suma + 1;
+					if(suma == 8){
+						suma = 1;
+					}
+			}
+		}else{
+			
+			for(int i = 1; i <date.passedDays();i++){
+				suma = suma + 1;
+				if(suma == 8){
+					suma = 1;
+				}
+			}
+		}
+		switch(suma){
+			case 1:
+				diaS="Lunes";
+				break;
+			case 2:
+				diaS="Martes";
+				break;
+			case 3:
+				diaS="Miercoles";
+				break;
+			case 4:
+				diaS="Jueves";
+				break;
+			case 5:
+				diaS="Viernes";
+				break;
+			case 6:
+				diaS="Sabado";
+				break;
+			case 7:
+				diaS="Domingo";
+				break;
+		}
+		}catch(DateException e){}
+		return diaS;
+	}
+
+		public int passedDays(){
+		int suma = this.day;
+		
+		for(int i = 1;i<this.month;i++){
+			suma = suma + p_getDaysOfMonth(i);
+		}
+		return suma;
+	}
+
+	private int p_getDaysOfMonth(int mes){
+		int day = 0;
+		
+		switch(mes){
+			
+			case 1: //Next
+			case 3: //Next
+			case 5: //Next
+			case 7: //Next
+			case 8: //Next
+			case 10: //Next
+			case 12:
+				day = 31;
+				break;
+			case 4: //Next
+			case 6: //Next
+			case 9: //Next
+			case 11:
+				day = 30;
+				break;
+			case 2:
+				day = 28;
+				break;
+		}
+		return day;
 	}
 
 	public String toString() {
